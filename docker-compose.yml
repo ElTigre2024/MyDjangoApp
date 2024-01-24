@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  # Django web application service
+  web:
+    image: python:3.8  # Use an official Python image
+    container_name: django_app
+    volumes:
+      - ./django_app:/app  # Mount your Django app code
+    ports:
+      - "8000:8000"  # Map container port to host port
+    environment:
+      - DJANGO_DB_HOST=db  # MariaDB service name
+      - DJANGO_DB_PORT=3306
+      - DJANGO_DB_NAME=mydb
+      - DJANGO_DB_USER=myuser
+      - DJANGO_DB_PASSWORD=mypassword
+    command: bash -c "pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8000"
+
+  # MariaDB service
+  db:
+    image: mariadb:latest
+    container_name: mariadb
+    volumes:
+      - ./db_data:/var/lib/mysql  # Mount a volume for database data
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=myuser
+      - MYSQL_PASSWORD=mypassword
+
+  # Optionally, you can use a web server like Nginx or Apache to serve Django in production.
+
+# Define any additional configurations or services as needed
