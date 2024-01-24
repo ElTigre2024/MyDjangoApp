@@ -1,2 +1,2 @@
 # MyDjangoApp
-a very simple application written in python using django framework
+A very simple application written in python using django framework
